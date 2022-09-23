@@ -3,6 +3,7 @@ import Header from './components/Header'
 import Modal from './components/Modal'
 import { generarId } from './helpers'
 import IconoNuevoGasto from './img/nuevo-gasto.svg'
+import ListadoGastos from './components/ListadoGastos'
 
 
 const App = () => {
@@ -39,13 +40,20 @@ const App = () => {
       />
       
       {isValidPresupuesto && (
-        <div className='nuevo-gasto'>
-          <img
-            src={IconoNuevoGasto}
-            alt="icono nuevo gasto"
-            onClick={handelNuevoGasto} />
-            
-        </div>
+        <>
+          <main>
+            <ListadoGastos
+              gastos ={gastos}
+            />
+          </main>
+          <div className='nuevo-gasto'>
+            <img
+              src={IconoNuevoGasto}
+              alt="icono nuevo gasto"
+              onClick={handelNuevoGasto} />
+              
+          </div>
+        </>
         )
       }
       {modal&& <Modal
