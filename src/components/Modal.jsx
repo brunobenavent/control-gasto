@@ -3,7 +3,7 @@ import BotonCerrarModal from '../img/cerrar.svg'
 import Mensaje from './Mensaje'
 const Modal = ({setModal, animarModal, setAnimarModal, guardarGasto}) => {
     const[nombre, setNombre] =useState('')
-    const[cantidad, setCantidad] =useState('0')
+    const[cantidad, setCantidad] =useState('')
     const[categoria, setCategoria] =useState('')
     const[mensaje, setMensaje] =useState('')
     
@@ -61,7 +61,7 @@ const Modal = ({setModal, animarModal, setAnimarModal, guardarGasto}) => {
                 <input 
                     id="cantidad"
                     type="number"
-                    placeholder="Añade La cantidad del gasto: ej. 300"
+                    placeholder= "Añade La cantidad del gasto: ej. 300"
                     value={cantidad}
                     onChange={ e => setCantidad(Number(e.target.value))}
                 />
