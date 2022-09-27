@@ -1,16 +1,27 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import BotonCerrarModal from '../img/cerrar.svg'
 import Mensaje from './Mensaje'
-const Modal = ({setModal, animarModal, setAnimarModal, guardarGasto}) => {
+const Modal = ({setModal, animarModal, setAnimarModal, guardarGasto, gastoEditar, setGastoEditar}) => {
     const[nombre, setNombre] =useState('')
     const[cantidad, setCantidad] =useState('')
     const[categoria, setCategoria] =useState('')
+    const[id, setId] =useState('')
+    const[fecha, setFecha] =useState('')
     const[mensaje, setMensaje] =useState('')
     
-
+    useEffect(()=>{
+        if(Object.keys(gastoEditar).length>0){
+            setNombre(gastoEditar.nombre)
+            setCantidad(gastoEditar.cantidad)
+            setCategoria(gastoEditar.categoria)
+            setId(gastoEditar.id)
+            setFecha(gastoEditar.fecha)
+        }
+    }, [])
 
     const ocultarModal = () =>{
         setAnimarModal(false)
+        setGastoEditar({})
         setTimeout(() => {
             setModal(false)
         }, 500);
@@ -24,7 +35,7 @@ const Modal = ({setModal, animarModal, setAnimarModal, guardarGasto}) => {
             }, 3000)
             return;
         }
-        guardarGasto({nombre, cantidad, categoria})
+        guardarGasto({nombre, cantidad, categoria, fecha, id})
     }
 
   return (
@@ -40,7 +51,7 @@ const Modal = ({setModal, animarModal, setAnimarModal, guardarGasto}) => {
             onSubmit={handelSubmit}
             className={`formulario ${animarModal ? "animar" : 'cerrar'}`}
             >
-            <legend>Nuevo Gasto</legend>
+            <legend>{Object.keys(gastoEditar).length>0 ? 'Editar Gasto' : 'Nuevo Gasto'}</legend>
                 {mensaje && <Mensaje tipo = 'error' > {mensaje}</Mensaje>}
                 
             <div className="campo">
@@ -87,7 +98,7 @@ const Modal = ({setModal, animarModal, setAnimarModal, guardarGasto}) => {
 
             <input
                 type="submit"
-                value='Añadir Gasto'
+                value={Object.keys(gastoEditar).length>0 ? 'Guardar Gasto' : 'Añadir Gasto'}
             />
 
         </form>

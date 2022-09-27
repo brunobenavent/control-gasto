@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Header from './components/Header'
 import Modal from './components/Modal'
 import { generarId } from './helpers'
@@ -12,32 +12,50 @@ const App = () => {
   const [modal, setModal] = useState(false)
   const [animarModal, setAnimarModal] = useState(false)
   const [gastos, setGastos] = useState([])
+  const [gastoEditar, setGastoEditar] = useState({})
 
+  useEffect(()=> {
+    if(Object.keys(gastoEditar).length>0){
+      setModal(true)
+      setTimeout(() => {
+      setAnimarModal(true)
+    }, 500);
+    }
+  }, [gastoEditar])
   
 
   const handelNuevoGasto = () => {
     setModal(true)
+    setGastoEditar({})
     setTimeout(() => {
       setAnimarModal(true)
     }, 500);
   }
-  const guardarGasto = gasto =>{
-    gasto.id = generarId();
-    gasto.fecha = Date.now();
-    setGastos([... gastos, gasto])
-    setAnimarModal(false)
+  const guardarGasto = gastoState =>{
+    
+    if (gastoState.id){
+      const gastosEditados = gastos.map(gasto => gasto.id===gastoState.id?gastoState:gasto)
+      setGastos(gastosEditados)
+      setGastoEditar({})
+    }else{
+      gastoState.id=generarId();
+      gastoState.fecha = Date.now();
+      setGastos([... gastos, gastoState])
+    }
+        setAnimarModal(false)
         setTimeout(() => {
             setModal(false)
         }, 500);
   }
   
   return (
-    <div>
+    <div className = {modal ? 'fijar' : ''}>
       <Header
         presupuesto = {presupuesto}
         setPresupuesto = {setPresupuesto}
         isValidPresupuesto= {isValidPresupuesto}
         setIsValidPresupuesto= {setIsValidPresupuesto}
+        gastos= {gastos}
       />
       
       {isValidPresupuesto && (
@@ -45,6 +63,8 @@ const App = () => {
           <main>
             <ListadoGastos
               gastos ={gastos}
+              setGastos = {setGastos}
+              setGastoEditar = {setGastoEditar}
             />
           </main>
           <div className='nuevo-gasto'>
@@ -62,6 +82,8 @@ const App = () => {
         animarModal = {animarModal}
         setAnimarModal ={setAnimarModal}
         guardarGasto = {guardarGasto}
+        gastoEditar = {gastoEditar}
+        setGastoEditar = {setGastoEditar}
       />}
       
     </div>
