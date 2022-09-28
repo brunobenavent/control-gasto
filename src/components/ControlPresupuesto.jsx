@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+import { formatearCantidad } from "../helpers";
 
 const ControlPresupuesto = ({presupuesto, gastos}) => {
     const [disponible, setDisponible] = useState(0)
@@ -18,13 +19,7 @@ const ControlPresupuesto = ({presupuesto, gastos}) => {
     }, [gastos])
 
 
-    const formatearCantidad = cantidad=>{
-        return cantidad.toLocaleString('en-US',
-        {
-            style: 'currency',
-            currency: 'USD'
-        })
-    }
+    
   return (
     <div className="contenedor-presupuesto contenedor sombra dos-columnas">
         <div>

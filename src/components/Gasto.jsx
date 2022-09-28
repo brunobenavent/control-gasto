@@ -37,12 +37,9 @@ const Gasto = ({gasto, setGastoEditar, gastos, setGastos}) => {
     )
     const trailingActions = () =>(
         <TrailingActions>
-            <SwipeAction onClick={ ()=> {
-                    console.log(gasto)
+            <SwipeAction 
+                    onClick={ ()=> {
                     setGastoEliminar(gasto)
-                    console.log(gastoEliminar.id)
-                    
-                    console.log(gastos)
                     const gastosActualizados = gastos.filter(gasto => gasto.id !== gastoEliminar.id)
                     setGastos(gastosActualizados)
                     }

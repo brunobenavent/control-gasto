@@ -1,17 +1,21 @@
 import { useState, useEffect } from 'react'
 import Header from './components/Header'
 import Modal from './components/Modal'
-import { generarId } from './helpers'
+import { formatearCantidad, generarId } from './helpers'
 import IconoNuevoGasto from './img/nuevo-gasto.svg'
 import ListadoGastos from './components/ListadoGastos'
 
 
 const App = () => {
-  const [ presupuesto, setPresupuesto] = useState(0)
+  const [ presupuesto, setPresupuesto] = useState(
+    formatearCantidad(localStorage.getItem('presupuesto') || 0)
+  )
   const [isValidPresupuesto, setIsValidPresupuesto] = useState(false);
   const [modal, setModal] = useState(false)
   const [animarModal, setAnimarModal] = useState(false)
-  const [gastos, setGastos] = useState([])
+  const [gastos, setGastos] = useState(
+    JSON.parse(localStorage.getItem('gastos')) || 0
+  )
   const [gastoEditar, setGastoEditar] = useState({})
 
   useEffect(()=> {
@@ -23,6 +27,20 @@ const App = () => {
     }
   }, [gastoEditar])
   
+  useEffect(()=> {
+    localStorage.setItem('presupuesto', presupuesto || 0)
+  }, [presupuesto])
+
+  useEffect(()=> {
+    const presupuestoLS = localStorage.getItem ('presupuesto') || 0
+    if(presupuestoLS>0){
+      setIsValidPresupuesto(true)
+    }
+  }, [])
+
+  useEffect(()=> {
+    localStorage.setItem('gastos', JSON.stringify(gastos) || 0)
+  }, [gastos])
 
   const handelNuevoGasto = () => {
     setModal(true)

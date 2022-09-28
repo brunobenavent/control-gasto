@@ -14,3 +14,11 @@ export const formatearFecha = fecha => {
    return fechaNueva.toLocaleDateString('es-ES', opciones)
 
 }
+
+export const formatearCantidad = cantidad=>{
+    return cantidad.toLocaleString('en-US',
+    {
+        style: 'currency',
+        currency: 'USD'
+    })
+}
